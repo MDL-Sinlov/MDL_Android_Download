@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">MDL_Android_Download</string>
+    <string name="btn_main_base_download">Base Download</string>
+    <string name="title_activity_base_download">BaseDownloadActivity</string>
+    <string name="title_activity_multi_download">MultiDownloadActivity</string>
+    <string name="btn_main_multi_download">Multi Download</string>
+    <string name="tip_download_file">Test download path:\n</string>
+</resources>
