@@ -185,8 +185,12 @@ import java.util.ArrayList;
                             }
                         } else {
                             String downloadUri = callback.queryPathByDownloadID(bytesAndStatus[0]);
-                            callback.updateDownloadData(bytesAndStatus[0], downloadUri, bytesAndStatus[2], bytesAndStatus[1], bytesAndStatus[3]);
-                            callback.onDownloadListener.downloadSuccess(bytesAndStatus[0], downloadUri);
+                            if (null != downloadUri) {
+                                callback.updateDownloadData(bytesAndStatus[0], downloadUri, bytesAndStatus[2], bytesAndStatus[1], bytesAndStatus[3]);
+                                callback.onDownloadListener.downloadHistory(bytesAndStatus[0], downloadUri);
+                            } else {
+                                callback.dataKeeper.deleteDownLoadInfo(String.valueOf(bytesAndStatus[0]));
+                            }
                         }
                         break;
                     case 2:

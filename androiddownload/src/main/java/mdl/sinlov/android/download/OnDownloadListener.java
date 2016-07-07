@@ -30,14 +30,6 @@ public interface OnDownloadListener {
     void downloading(long downloadId, long status, MDLDownLoadInfo mdlDownLoadInfo);
 
     /**
-     * call back at status {@link DownloadManager#STATUS_SUCCESSFUL}
-     *
-     * @param downloadId  downloadID
-     * @param downloadUri downloadUri
-     */
-    void downloadSuccess(long downloadId, String downloadUri);
-
-    /**
      * call back at status {@link DownloadManager#STATUS_SUCCESSFUL} and only call back once!
      *
      * @param downloadId      downloadID
@@ -52,4 +44,12 @@ public interface OnDownloadListener {
      * @param errorCode  error code
      */
     void downloadError(long downloadId, int errorCode);
+
+    /**
+     * call back at status {@link DownloadManager#STATUS_SUCCESSFUL}
+     *
+     * @param downloadId  downloadID
+     * @param downloadUri downloadUri
+     */
+    void downloadHistory(long downloadId, String downloadUri);
 }

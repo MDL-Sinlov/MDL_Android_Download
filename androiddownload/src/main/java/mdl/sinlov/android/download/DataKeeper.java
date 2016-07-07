@@ -162,32 +162,6 @@ import java.util.ArrayList;
         return downloadIds;
     }
 
-    public ArrayList<MDLDownLoadInfo> getUserDownLoadInfo(String downloadID) {
-        ArrayList<MDLDownLoadInfo> downloadInfoList = new ArrayList<MDLDownLoadInfo>();
-        db = dbHelper.getWritableDatabase();
-        try {
-            Cursor cursor = db.rawQuery(
-                    "SELECT * from " + SQLiteHelper.TABLE_NAME + " WHERE downloadID = '" + downloadID + "'", null);
-            while (cursor.moveToNext()) {
-                MDLDownLoadInfo downloadInfo = new MDLDownLoadInfo();
-                downloadInfo.setDownloadSize(cursor.getLong(cursor.getColumnIndex("downLoadSize")));
-                downloadInfo.setFilePath(cursor.getString(cursor.getColumnIndex("filePath")));
-                downloadInfo.setFileSize(cursor.getLong(cursor.getColumnIndex("fileSize")));
-                downloadInfo.setUrl(cursor.getString(cursor.getColumnIndex("url")));
-                downloadInfo.setTaskID(cursor.getString(cursor.getColumnIndex("taskID")));
-                downloadInfo.setDownloadStatus(cursor.getLong(cursor.getColumnIndex("downloadStatus")));
-                downloadInfo.setDownloadID(cursor.getString(cursor.getColumnIndex("downloadID")));
-                downloadInfoList.add(downloadInfo);
-            }
-            cursor.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        db.close();
-        return downloadInfoList;
-    }
-
     public void deleteDownLoadInfo(String downloadID, String taskID) {
         db = dbHelper.getWritableDatabase();
         db.delete(SQLiteHelper.TABLE_NAME, " downloadID = ? AND taskID = ? ", new String[]{downloadID, taskID});

@@ -30,7 +30,7 @@ public class BaseDownloadActivity extends MDLTestActivity {
     private ProgressBar pbDownloadProgress;
     private TextView tvDownloadTip;
     private TextView tvDownloadSize;
-    private TextView tvDownloadPrecent;
+    private TextView tvDownloadPercentage;
     private MDLDownload mdlDownload;
 
     @Override
@@ -49,7 +49,7 @@ public class BaseDownloadActivity extends MDLTestActivity {
                 + mdlDownload.getDownloadFolder();
         tvDownloadTip.setText(downPathInfo);
         tvDownloadSize = getViewById(R.id.download_size);
-        tvDownloadPrecent = getViewById(R.id.download_precent);
+        tvDownloadPercentage = getViewById(R.id.download_precent);
     }
 
     private void initData() {
@@ -108,8 +108,8 @@ public class BaseDownloadActivity extends MDLTestActivity {
                 tvDownloadSize.setVisibility(View.VISIBLE);
                 int progress = (int) (downloadSize * 100 / totalFileSize);
                 pbDownloadProgress.setProgress(progress);
-                tvDownloadPrecent.setText(String.valueOf(progress + "%"));
-                tvDownloadPrecent.setVisibility(View.VISIBLE);
+                tvDownloadPercentage.setText(String.valueOf(progress + "%"));
+                tvDownloadPercentage.setVisibility(View.VISIBLE);
                 pbDownloadProgress.setVisibility(View.VISIBLE);
                 btnDownloadCancel.setVisibility(View.VISIBLE);
                 btnDownloadButton.setVisibility(View.GONE);
@@ -117,8 +117,8 @@ public class BaseDownloadActivity extends MDLTestActivity {
         }
 
         @Override
-        public void downloadSuccess(long downloadId, String downloadUri) {
-            ALog.i("downloadSuccess id: " + downloadId + " downloadUri: " + downloadUri);
+        public void downloadHistory(long downloadId, String downloadUri) {
+            ALog.i("downloadHistory id: " + downloadId + " downloadUri: " + downloadUri);
         }
 
         @Override
@@ -127,7 +127,7 @@ public class BaseDownloadActivity extends MDLTestActivity {
             String showInfo = "Download Success! Size: " + mdlDownLoadInfo.getFileSize();
             tvDownloadSize.setText(showInfo);
             tvDownloadSize.setVisibility(View.VISIBLE);
-            tvDownloadPrecent.setVisibility(View.GONE);
+            tvDownloadPercentage.setVisibility(View.GONE);
             pbDownloadProgress.setProgress(100);
             pbDownloadProgress.setVisibility(View.VISIBLE);
             btnDownloadCancel.setVisibility(View.GONE);
