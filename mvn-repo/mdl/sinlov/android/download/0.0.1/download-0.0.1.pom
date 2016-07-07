@@ -8,7 +8,7 @@
   <packaging>aar</packaging>
   <name>download Library</name>
   <description></description>
-  <url>https://github.com/MDL_Sinlov/MDL_Android_Download</url>
+  <url>https://github.com/MDL-Sinlov/MDL_Android_Download</url>
   <licenses>
     <license>
       <name>The Apache Software License, Version 2.0</name>
@@ -23,8 +23,8 @@
     </developer>
   </developers>
   <scm>
-    <connection>scm:git@github.com:MDL_Sinlov/MDL_Android_Download.git</connection>
-    <developerConnection>scm:git@github.com:MDL_Sinlov/MDL_Android_Download.git</developerConnection>
-    <url>https://github.com/MDL_Sinlov/MDL_Android_Download</url>
+    <connection>scm:git@github.com:MDL-Sinlov/MDL_Android_Download.git</connection>
+    <developerConnection>scm:git@github.com:MDL-Sinlov/MDL_Android_Download.git</developerConnection>
+    <url>https://github.com/MDL-Sinlov/MDL_Android_Download</url>
   </scm>
 </project>

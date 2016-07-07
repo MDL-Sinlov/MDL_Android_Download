@@ -12,7 +12,7 @@
 Less Runtime :
 - minSdkVersion 14
 - gradle or maven
-- jar [Download just like this Path](https://github.com/MDL_Sinlov/MDL_Android_Download/raw/master/mvn-repo/mdl/sinlov/android/download/0.0.1/download-0.0.1-jarLib.jar)
+- jar [Download just like this Path](https://github.com/MDL-Sinlov/MDL_Android_Download/raw/master/mvn-repo/mdl/sinlov/android/download/0.0.1/download-0.0.1-jarLib.jar)
 
 > eclipse just use every repo at version `download-x.x.x-jarLib.jar`
 
@@ -29,7 +29,7 @@ at root project `build.gradle`
 ```gradle
 repositories {
     maven {
-        url 'https://raw.githubusercontent.com/MDL_Sinlov/MDL_Android_Download/master/mvn-repo/'
+        url 'https://raw.githubusercontent.com/MDL-Sinlov/MDL_Android_Download/master/mvn-repo/'
     }
     jcenter()
     ...
