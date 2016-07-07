@@ -7,7 +7,7 @@
 - download info recording at SQLiteDB
 - Use WeakReference for less MEM use
 
-> Version 0.0.1 method count 
+> Version 0.0.1 method count 112
 
 Less Runtime :
 - minSdkVersion 14
