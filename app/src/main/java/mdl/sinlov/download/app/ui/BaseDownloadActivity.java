@@ -25,12 +25,12 @@ public class BaseDownloadActivity extends MDLTestActivity {
     public static final String APK_URL = "http://10.8.230.124:8082/app-debug.apk";
 
     private FloatingActionButton fab;
-    private Button downloadButton;
-    private ProgressBar downloadProgress;
-    private TextView downloadTip;
-    private TextView downloadSize;
-    private TextView downloadPrecent;
-    private Button downloadCancel;
+    private Button btnDownloadButton;
+    private Button btnDownloadCancel;
+    private ProgressBar pbDownloadProgress;
+    private TextView tvDownloadTip;
+    private TextView tvDownloadSize;
+    private TextView tvDownloadPrecent;
     private MDLDownload mdlDownload;
 
     @Override
@@ -41,15 +41,15 @@ public class BaseDownloadActivity extends MDLTestActivity {
         setSupportActionBar(toolbar);
         fab = (FloatingActionButton) findViewById(R.id.fab);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        downloadButton = getViewById(R.id.download_button);
-        downloadCancel = getViewById(R.id.download_cancel);
-        downloadProgress = getViewById(R.id.download_progress);
-        downloadTip = getViewById(R.id.download_tip);
+        btnDownloadButton = getViewById(R.id.download_button);
+        btnDownloadCancel = getViewById(R.id.download_cancel);
+        pbDownloadProgress = getViewById(R.id.download_progress);
+        tvDownloadTip = getViewById(R.id.download_tip);
         String downPathInfo = getString(R.string.tip_download_file)
                 + mdlDownload.getDownloadFolder();
-        downloadTip.setText(downPathInfo);
-        downloadSize = getViewById(R.id.download_size);
-        downloadPrecent = getViewById(R.id.download_precent);
+        tvDownloadTip.setText(downPathInfo);
+        tvDownloadSize = getViewById(R.id.download_size);
+        tvDownloadPrecent = getViewById(R.id.download_precent);
     }
 
     private void initData() {
@@ -84,7 +84,7 @@ public class BaseDownloadActivity extends MDLTestActivity {
                         .setAction("Action", null).show();
             }
         });
-        downloadButton.setOnClickListener(new View.OnClickListener() {
+        btnDownloadButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mdlDownload.submitDownload(APK_URL, DOWNLOAD_FILE_NAME, true);
@@ -97,10 +97,23 @@ public class BaseDownloadActivity extends MDLTestActivity {
 
         @Override
         public void downloading(long downloadId, long status, MDLDownLoadInfo mdlDownLoadInfo) {
+            long downloadSize = mdlDownLoadInfo.getDownloadSize();
+            long totalFileSize = mdlDownLoadInfo.getFileSize();
             ALog.d("downloading id: " + downloadId +
                     " status: " + status +
-                    " download: " + mdlDownLoadInfo.getDownloadSize() +
-                    " total: " + mdlDownLoadInfo.getFileSize());
+                    " download: " + downloadSize +
+                    " total: " + totalFileSize);
+            if (totalFileSize > 0) {
+                tvDownloadSize.setText(String.valueOf(totalFileSize));
+                tvDownloadSize.setVisibility(View.VISIBLE);
+                int progress = (int) (downloadSize * 100 / totalFileSize);
+                pbDownloadProgress.setProgress(progress);
+                tvDownloadPrecent.setText(String.valueOf(progress + "%"));
+                tvDownloadPrecent.setVisibility(View.VISIBLE);
+                pbDownloadProgress.setVisibility(View.VISIBLE);
+                btnDownloadCancel.setVisibility(View.VISIBLE);
+                btnDownloadButton.setVisibility(View.GONE);
+            }
         }
 
         @Override
@@ -109,8 +122,16 @@ public class BaseDownloadActivity extends MDLTestActivity {
         }
 
         @Override
-        public void downloadComplete(long downloadId, String downloadUri) {
-            ALog.v("downloadComplete id: " + downloadId + " downloadUri: " + downloadUri);
+        public void downloadComplete(long downloadId, MDLDownLoadInfo mdlDownLoadInfo) {
+            ALog.v("downloadComplete id: " + downloadId + " downloadUri: " + mdlDownLoadInfo.getFilePath());
+            String showInfo = "Download Success! Size: " + mdlDownLoadInfo.getFileSize();
+            tvDownloadSize.setText(showInfo);
+            tvDownloadSize.setVisibility(View.VISIBLE);
+            tvDownloadPrecent.setVisibility(View.GONE);
+            pbDownloadProgress.setProgress(100);
+            pbDownloadProgress.setVisibility(View.VISIBLE);
+            btnDownloadCancel.setVisibility(View.GONE);
+            btnDownloadButton.setVisibility(View.GONE);
         }
 
         @Override

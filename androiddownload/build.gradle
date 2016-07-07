@@ -26,6 +26,3 @@ dependencies {
 //    compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
 }
-
-// uploadArchives all
-apply from: "https://coding.net/u/sinlovppt/p/Gradle_Zoo/git/raw/master/github/android/github-archives-all.gradle"

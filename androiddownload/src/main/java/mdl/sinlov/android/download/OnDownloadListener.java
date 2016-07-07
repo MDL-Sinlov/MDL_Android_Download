@@ -40,10 +40,10 @@ public interface OnDownloadListener {
     /**
      * call back at status {@link DownloadManager#STATUS_SUCCESSFUL} and only call back once!
      *
-     * @param downloadId  downloadID
-     * @param downloadUri downloadUri
+     * @param downloadId      downloadID
+     * @param mdlDownLoadInfo mdlDownLoadInfo
      */
-    void downloadComplete(long downloadId, String downloadUri);
+    void downloadComplete(long downloadId, MDLDownLoadInfo mdlDownLoadInfo);
 
     /**
      * this error code from {@link DownloadManager#ERROR_UNKNOWN} and others code.

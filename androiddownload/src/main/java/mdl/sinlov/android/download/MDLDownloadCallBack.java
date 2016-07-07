@@ -129,8 +129,7 @@ import java.util.ArrayList;
                 for (long downloadId : downloadIds
                         ) {
                     if (completeDownloadId == downloadId && mdlDownloadManager.getStatusById(downloadId) == DownloadManager.STATUS_SUCCESSFUL) {
-                        String downloadUri = queryPathByDownloadID(completeDownloadId);
-                        onDownloadListener.downloadComplete(completeDownloadId, downloadUri);
+                        onDownloadListener.downloadComplete(completeDownloadId, dataKeeper.getDownLoadInfo(String.valueOf(completeDownloadId)));
                     }
                 }
             } else {
@@ -177,7 +176,7 @@ import java.util.ArrayList;
                 switch (msg.what) {
                     case 1:
                         long[] bytesAndStatus = (long[]) msg.obj;
-                        if (isDownloading(bytesAndStatus[3])) {
+                        if (callback.isDownloading(bytesAndStatus[3])) {
                             if (bytesAndStatus[3] < 0) {
                                 callback.updateDownloadData(bytesAndStatus[0], "", bytesAndStatus[2], 0, bytesAndStatus[3]);
                             } else {
@@ -210,11 +209,12 @@ import java.util.ArrayList;
             }
         }
 
-        private boolean isDownloading(long downloadManagerStatus) {
-            return downloadManagerStatus == DownloadManager.STATUS_RUNNING
-                    || downloadManagerStatus == DownloadManager.STATUS_PAUSED
-                    || downloadManagerStatus == DownloadManager.STATUS_PENDING;
-        }
+    }
+
+    private boolean isDownloading(long downloadManagerStatus) {
+        return downloadManagerStatus == DownloadManager.STATUS_RUNNING
+                || downloadManagerStatus == DownloadManager.STATUS_PAUSED
+                || downloadManagerStatus == DownloadManager.STATUS_PENDING;
     }
 
     public void saveDownloadData(long downloadID, String url) {
@@ -232,7 +232,9 @@ import java.util.ArrayList;
         downloadInfo.setDownloadStatus(downloadStatus);
         downloadInfo.setDownloadSize(downloadSize);
         dataKeeper.saveDownLoadInfo(downloadInfo);
-        onDownloadListener.downloading(downloadID, downloadStatus, downloadInfo);
+        if (isDownloading(downloadStatus)) {
+            onDownloadListener.downloading(downloadID, downloadStatus, downloadInfo);
+        }
     }
 
     public ArrayList<MDLDownLoadInfo> getDownloadInfoByDB() {

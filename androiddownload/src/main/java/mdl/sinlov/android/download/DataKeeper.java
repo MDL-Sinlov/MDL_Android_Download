@@ -98,12 +98,16 @@ import java.util.ArrayList;
         return input;
     }
 
+    public MDLDownLoadInfo getDownLoadInfo(String downloadID) {
+        return getDownLoadInfo(downloadID, "");
+    }
+
     public MDLDownLoadInfo getDownLoadInfo(String downloadID, String taskID) {
         MDLDownLoadInfo downloadInfo = null;
         db = dbHelper.getWritableDatabase();
         Cursor cursor = db.rawQuery(
                 "SELECT * from " + SQLiteHelper.TABLE_NAME
-                        + "WHERE downloadID = ? AND taskID = ? ", new String[]{downloadID, taskID});
+                        + " WHERE downloadID = ? AND taskID = ? ", new String[]{downloadID, taskID});
         if (cursor.moveToNext()) {
             downloadInfo = new MDLDownLoadInfo();
             downloadInfo.setDownloadID(cursor.getString(cursor.getColumnIndex("downloadID")));
@@ -186,14 +190,12 @@ import java.util.ArrayList;
 
     public void deleteDownLoadInfo(String downloadID, String taskID) {
         db = dbHelper.getWritableDatabase();
-        db.delete(SQLiteHelper.TABLE_NAME, "downloadID = ? AND taskID = ? ", new String[]{downloadID, taskID});
+        db.delete(SQLiteHelper.TABLE_NAME, " downloadID = ? AND taskID = ? ", new String[]{downloadID, taskID});
         db.close();
     }
 
     public void deleteDownLoadInfo(String downloadID) {
-        db = dbHelper.getWritableDatabase();
-        db.delete(SQLiteHelper.TABLE_NAME, "downloadID = ? ", new String[]{downloadID});
-        db.close();
+        deleteDownLoadInfo(downloadID, "");
     }
 
     public void deleteAllDownLoadInfo() {
