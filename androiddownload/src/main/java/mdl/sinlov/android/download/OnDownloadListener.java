@@ -26,6 +26,7 @@ public interface OnDownloadListener {
      *
      * @param downloadId downloadID
      * @param status     status
+     * @param mdlDownLoadInfo {@link MDLDownLoadInfo}
      */
     void downloading(long downloadId, long status, MDLDownLoadInfo mdlDownLoadInfo);
 
@@ -33,7 +34,7 @@ public interface OnDownloadListener {
      * call back at status {@link DownloadManager#STATUS_SUCCESSFUL} and only call back once!
      *
      * @param downloadId      downloadID
-     * @param mdlDownLoadInfo mdlDownLoadInfo
+     * @param mdlDownLoadInfo {@link MDLDownLoadInfo}
      */
     void downloadComplete(long downloadId, MDLDownLoadInfo mdlDownLoadInfo);
 
