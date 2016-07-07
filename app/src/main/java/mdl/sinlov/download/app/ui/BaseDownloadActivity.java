@@ -117,11 +117,6 @@ public class BaseDownloadActivity extends MDLTestActivity {
         }
 
         @Override
-        public void downloadHistory(long downloadId, String downloadUri) {
-            ALog.i("downloadHistory id: " + downloadId + " downloadUri: " + downloadUri);
-        }
-
-        @Override
         public void downloadComplete(long downloadId, MDLDownLoadInfo mdlDownLoadInfo) {
             ALog.v("downloadComplete id: " + downloadId + " downloadUri: " + mdlDownLoadInfo.getFilePath());
             String showInfo = "Download Success! Size: " + mdlDownLoadInfo.getFileSize();
@@ -137,6 +132,11 @@ public class BaseDownloadActivity extends MDLTestActivity {
         @Override
         public void downloadError(long downloadId, int errorCode) {
             ALog.e("downloadError id: " + downloadId + " errorCode: " + errorCode);
+        }
+
+        @Override
+        public void downloadHistory(long downloadId, String downloadUri) {
+            ALog.i("downloadHistory id: " + downloadId + " downloadUri: " + downloadUri);
         }
     }
 }

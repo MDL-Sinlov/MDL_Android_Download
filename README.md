@@ -71,27 +71,25 @@ private class TestDownloadCallback implements OnDownloadListener {
 
 
         @Override
-        public void downloading(long downloadId, long download, long total) {
-            ALog.d("downloading id: " + downloadId + " download: " + download
-                    + " total: " + total
-            );
+        public void downloading(long downloadId, long status, MDLDownLoadInfo mdlDownLoadInfo) {
+            // downloadId and status fast to query, all info in mdlDownLoadInfo
         }
 
         @Override
-        public void downloadSuccess(long downloadId, String downloadUri) {
-            ALog.i("downloadSuccess id: " + downloadId + " downloadUri: " + downloadUri);
-        }
-
-
-        @Override
-        public void downloadComplete(long downloadId, String downloadUri) {
-            ALog.v("downloadComplete id: " + downloadId + " downloadUri: " + downloadUri);
+        public void downloadComplete(long downloadId, MDLDownLoadInfo mdlDownLoadInfo) {
+            //all info in mdlDownLoadInfo {@link DownloadManager#STATUS_SUCCESSFUL}
         }
 
 
         @Override
         public void downloadError(long downloadId, int errorCode) {
-            ALog.e("downloadError id: " + downloadId + " errorCode: " + errorCode);
+            // errorCode in {@link DownloadManager#ERROR_UNKNOWN} and so no.
+        }
+
+
+        @Override
+        public void downloadHistory(long downloadId, String downloadUri) {
+            // history info
         }
     }
 ```
