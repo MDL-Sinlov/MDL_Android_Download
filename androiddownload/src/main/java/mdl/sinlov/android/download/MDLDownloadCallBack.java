@@ -179,11 +179,10 @@ import java.util.ArrayList;
                         long[] bytesAndStatus = (long[]) msg.obj;
                         if (isDownloading(bytesAndStatus[3])) {
                             if (bytesAndStatus[3] < 0) {
-                                callback.onDownloadListener.downloading(bytesAndStatus[0], 0, 0);
+                                callback.updateDownloadData(bytesAndStatus[0], "", bytesAndStatus[2], 0, bytesAndStatus[3]);
                             } else {
                                 String downloadUri = callback.queryPathByDownloadID(bytesAndStatus[0]);
                                 callback.updateDownloadData(bytesAndStatus[0], downloadUri, bytesAndStatus[2], bytesAndStatus[1], bytesAndStatus[3]);
-                                callback.onDownloadListener.downloading(bytesAndStatus[0], bytesAndStatus[1], bytesAndStatus[2]);
                             }
                         } else {
                             String downloadUri = callback.queryPathByDownloadID(bytesAndStatus[0]);
@@ -195,7 +194,7 @@ import java.util.ArrayList;
                         callback.onDownloadListener.downloadError((Long) msg.obj, msg.arg1);
                         break;
                     case 10:
-                        ArrayList<SQLDownLoadInfo> downloadList = callback.dataKeeper.getAllDownLoadInfo();
+                        ArrayList<MDLDownLoadInfo> downloadList = callback.dataKeeper.getAllDownLoadInfo();
                         for (int i = 0; i < downloadList.size(); i++) {
                             String downloadID = downloadList.get(i).getDownloadID();
                             callback.mdlDownloadManager.getDownloadManager().remove(Long.parseLong(downloadID));
@@ -204,6 +203,7 @@ import java.util.ArrayList;
                         callback.deleteDirectory((String) msg.obj);
                         break;
                     default:
+                        // empty call back
                         break;
                 }
 
@@ -218,23 +218,24 @@ import java.util.ArrayList;
     }
 
     public void saveDownloadData(long downloadID, String url) {
-        SQLDownLoadInfo downloadInfo = new SQLDownLoadInfo();
+        MDLDownLoadInfo downloadInfo = new MDLDownLoadInfo();
         downloadInfo.setUrl(url);
         downloadInfo.setDownloadID(String.valueOf(downloadID));
         dataKeeper.saveDownLoadInfo(downloadInfo);
     }
 
     public void updateDownloadData(long downloadID, String subPath, long fileSize, long downloadSize, long downloadStatus) {
-        SQLDownLoadInfo downloadInfo = new SQLDownLoadInfo();
+        MDLDownLoadInfo downloadInfo = new MDLDownLoadInfo();
         downloadInfo.setDownloadID(String.valueOf(downloadID));
         downloadInfo.setFilePath(subPath);
         downloadInfo.setFileSize(fileSize);
         downloadInfo.setDownloadStatus(downloadStatus);
         downloadInfo.setDownloadSize(downloadSize);
         dataKeeper.saveDownLoadInfo(downloadInfo);
+        onDownloadListener.downloading(downloadID, downloadStatus, downloadInfo);
     }
 
-    public ArrayList<SQLDownLoadInfo> getDownloadInfoByDB() {
+    public ArrayList<MDLDownLoadInfo> getDownloadInfoByDB() {
         return dataKeeper.getAllDownLoadInfo();
     }
 

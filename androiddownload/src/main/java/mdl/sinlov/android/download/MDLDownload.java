@@ -57,9 +57,9 @@ public class MDLDownload {
     /**
      * get Full download Info by DB, it will cost some time.
      *
-     * @return {@link ArrayList} with {@link SQLDownLoadInfo}
+     * @return {@link ArrayList} with {@link MDLDownLoadInfo}
      */
-    public ArrayList<SQLDownLoadInfo> getDownloadInfoByDB() {
+    public ArrayList<MDLDownLoadInfo> getDownloadInfoByDB() {
         return mdlDownloadCallBack.getDownloadInfoByDB();
     }
 

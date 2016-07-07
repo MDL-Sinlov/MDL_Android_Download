@@ -11,9 +11,9 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import mdl.sinlov.android.download.MDLDownLoadInfo;
 import mdl.sinlov.android.download.MDLDownload;
 import mdl.sinlov.android.download.OnDownloadListener;
-import mdl.sinlov.android.download.SQLDownLoadInfo;
 import mdl.sinlov.android.log.ALog;
 import mdl.sinlov.download.app.R;
 
@@ -54,9 +54,9 @@ public class BaseDownloadActivity extends MDLTestActivity {
 
     private void initData() {
         mdlDownload = new MDLDownload(this, DOWNLOAD_FOLDER_NAME, new TestDownloadCallback());
-        ArrayList<SQLDownLoadInfo> downloadInfo = mdlDownload.getDownloadInfoByDB();
+        ArrayList<MDLDownLoadInfo> downloadInfo = mdlDownload.getDownloadInfoByDB();
         testTimeUseStart();
-        for (SQLDownLoadInfo info :
+        for (MDLDownLoadInfo info :
                 downloadInfo) {
             ALog.d(info.toString());
         }
@@ -96,10 +96,11 @@ public class BaseDownloadActivity extends MDLTestActivity {
 
 
         @Override
-        public void downloading(long downloadId, long download, long total) {
-            ALog.d("downloading id: " + downloadId + " download: " + download
-                    + " total: " + total
-            );
+        public void downloading(long downloadId, long status, MDLDownLoadInfo mdlDownLoadInfo) {
+            ALog.d("downloading id: " + downloadId +
+                    " status: " + status +
+                    " download: " + mdlDownLoadInfo.getDownloadSize() +
+                    " total: " + mdlDownLoadInfo.getFileSize());
         }
 
         @Override
@@ -107,12 +108,10 @@ public class BaseDownloadActivity extends MDLTestActivity {
             ALog.i("downloadSuccess id: " + downloadId + " downloadUri: " + downloadUri);
         }
 
-
         @Override
         public void downloadComplete(long downloadId, String downloadUri) {
             ALog.v("downloadComplete id: " + downloadId + " downloadUri: " + downloadUri);
         }
-
 
         @Override
         public void downloadError(long downloadId, int errorCode) {

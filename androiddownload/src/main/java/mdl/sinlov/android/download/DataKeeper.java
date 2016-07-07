@@ -40,9 +40,9 @@ import java.util.ArrayList;
     /**
      * save download info
      *
-     * @param downloadInfo {@link SQLDownLoadInfo}
+     * @param downloadInfo {@link MDLDownLoadInfo}
      */
-    public void saveDownLoadInfo(SQLDownLoadInfo downloadInfo) {
+    public void saveDownLoadInfo(MDLDownLoadInfo downloadInfo) {
         ContentValues cv = new ContentValues();
         cv.put("downloadID", downloadInfo.getDownloadID());
         cv.put("downloadStatus", downloadInfo.getDownloadStatus());
@@ -98,14 +98,14 @@ import java.util.ArrayList;
         return input;
     }
 
-    public SQLDownLoadInfo getDownLoadInfo(String downloadID, String taskID) {
-        SQLDownLoadInfo downloadInfo = null;
+    public MDLDownLoadInfo getDownLoadInfo(String downloadID, String taskID) {
+        MDLDownLoadInfo downloadInfo = null;
         db = dbHelper.getWritableDatabase();
         Cursor cursor = db.rawQuery(
                 "SELECT * from " + SQLiteHelper.TABLE_NAME
                         + "WHERE downloadID = ? AND taskID = ? ", new String[]{downloadID, taskID});
         if (cursor.moveToNext()) {
-            downloadInfo = new SQLDownLoadInfo();
+            downloadInfo = new MDLDownLoadInfo();
             downloadInfo.setDownloadID(cursor.getString(cursor.getColumnIndex("downloadID")));
             downloadInfo.setTaskID(cursor.getString(cursor.getColumnIndex("taskID")));
             downloadInfo.setDownloadSize(cursor.getLong(cursor.getColumnIndex("downLoadSize")));
@@ -119,13 +119,13 @@ import java.util.ArrayList;
         return downloadInfo;
     }
 
-    public ArrayList<SQLDownLoadInfo> getAllDownLoadInfo() {
-        ArrayList<SQLDownLoadInfo> downloadInfoList = new ArrayList<>();
+    public ArrayList<MDLDownLoadInfo> getAllDownLoadInfo() {
+        ArrayList<MDLDownLoadInfo> downloadInfoList = new ArrayList<>();
         db = dbHelper.getWritableDatabase();
         Cursor cursor = db.rawQuery(
                 "SELECT * from " + SQLiteHelper.TABLE_NAME, null);
         while (cursor.moveToNext()) {
-            SQLDownLoadInfo downloadInfo = new SQLDownLoadInfo();
+            MDLDownLoadInfo downloadInfo = new MDLDownLoadInfo();
             downloadInfo.setDownloadID(cursor.getString(cursor.getColumnIndex("downloadID")));
             downloadInfo.setDownloadSize(cursor.getLong(cursor.getColumnIndex("downLoadSize")));
             downloadInfo.setFilePath(cursor.getString(cursor.getColumnIndex("filePath")));
@@ -158,14 +158,14 @@ import java.util.ArrayList;
         return downloadIds;
     }
 
-    public ArrayList<SQLDownLoadInfo> getUserDownLoadInfo(String downloadID) {
-        ArrayList<SQLDownLoadInfo> downloadInfoList = new ArrayList<SQLDownLoadInfo>();
+    public ArrayList<MDLDownLoadInfo> getUserDownLoadInfo(String downloadID) {
+        ArrayList<MDLDownLoadInfo> downloadInfoList = new ArrayList<MDLDownLoadInfo>();
         db = dbHelper.getWritableDatabase();
         try {
             Cursor cursor = db.rawQuery(
                     "SELECT * from " + SQLiteHelper.TABLE_NAME + " WHERE downloadID = '" + downloadID + "'", null);
             while (cursor.moveToNext()) {
-                SQLDownLoadInfo downloadInfo = new SQLDownLoadInfo();
+                MDLDownLoadInfo downloadInfo = new MDLDownLoadInfo();
                 downloadInfo.setDownloadSize(cursor.getLong(cursor.getColumnIndex("downLoadSize")));
                 downloadInfo.setFilePath(cursor.getString(cursor.getColumnIndex("filePath")));
                 downloadInfo.setFileSize(cursor.getLong(cursor.getColumnIndex("fileSize")));

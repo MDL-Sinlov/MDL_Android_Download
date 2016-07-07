@@ -17,7 +17,7 @@ package mdl.sinlov.android.download;
  * </pre>
  * Created by "sinlov" on 16/6/30.
  */
-public class SQLDownLoadInfo {
+public class MDLDownLoadInfo {
     private String downloadID;
     private long downloadStatus;
     private String taskID;
@@ -84,7 +84,7 @@ public class SQLDownLoadInfo {
 
     @Override
     public String toString() {
-        return "SQLDownLoadInfo{" +
+        return "MDLDownLoadInfo{" +
                 "downloadID='" + downloadID + '\'' +
                 ", downloadStatus=" + downloadStatus +
                 ", taskID='" + taskID + '\'' +

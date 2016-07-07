@@ -22,13 +22,12 @@ import android.app.DownloadManager;
  */
 public interface OnDownloadListener {
     /**
-     * call back at status {@link DownloadManager#STATUS_RUNNING}
+     * call back at status {@link DownloadManager#STATUS_RUNNING} or {@link DownloadManager#STATUS_PAUSED}
      *
      * @param downloadId downloadID
-     * @param download   downloaded file size
-     * @param total      total download size
+     * @param status     status
      */
-    void downloading(long downloadId, long download, long total);
+    void downloading(long downloadId, long status, MDLDownLoadInfo mdlDownLoadInfo);
 
     /**
      * call back at status {@link DownloadManager#STATUS_SUCCESSFUL}
