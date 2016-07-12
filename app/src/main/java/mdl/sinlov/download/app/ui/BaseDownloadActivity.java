@@ -53,7 +53,7 @@ public class BaseDownloadActivity extends MDLTestActivity {
     }
 
     private void initData() {
-        mdlDownload = new MDLDownload(this, DOWNLOAD_FOLDER_NAME, new TestDownloadCallback());
+        mdlDownload = new MDLDownload(this, DOWNLOAD_FOLDER_NAME, new TestDownloadCallback(), 2);
         ArrayList<MDLDownLoadInfo> downloadInfo = mdlDownload.getDownloadInfoByDB();
         testTimeUseStart();
         for (MDLDownLoadInfo info :
@@ -137,6 +137,11 @@ public class BaseDownloadActivity extends MDLTestActivity {
         @Override
         public void downloadHistory(long downloadId, String downloadUri) {
             ALog.i("downloadHistory id: " + downloadId + " downloadUri: " + downloadUri);
+        }
+
+        @Override
+        public void downloadOutChange(long downloadId, long status) {
+            ALog.w("downloadHistory id: " + downloadId + " status: " + status);
         }
     }
 }

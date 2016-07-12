@@ -53,4 +53,11 @@ public interface OnDownloadListener {
      * @param downloadUri downloadUri
      */
     void downloadHistory(long downloadId, String downloadUri);
+
+    /**
+     * call back at status
+     * @param downloadId downloadID
+     * @param status status
+     */
+    void downloadOutChange(long downloadId, long status);
 }

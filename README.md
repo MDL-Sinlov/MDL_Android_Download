@@ -53,13 +53,21 @@ dependencies {
 ### init `MDLDownload`
 
 ```java
+// nomal way static use
 MDLDownload mdlDownload = new MDLDownload(this, DOWNLOAD_FOLDER_NAME, new TestDownloadCallback());
+
+// last params version can use like app version for clear old download for remove DB data
+// download file will not delete because it was cast to much resource
+MDLDownload mdlDownload = new MDLDownload(this, DOWNLOAD_FOLDER_NAME, new TestDownloadCallback(), 2);
 
 // get download folder
 mdlDownload.getDownloadFolder();
 
 //for get download info
 ArrayList<SQLDownLoadInfo> downloadInfo = mdlDownload.getDownloadInfoByDB();
+
+//if you are update version please clear all data
+
 ```
 
 ### new Callback
@@ -90,6 +98,10 @@ private class TestDownloadCallback implements OnDownloadListener {
         @Override
         public void downloadHistory(long downloadId, String downloadUri) {
             // history info
+        }
+        @Override
+        public void downloadOutChange(long downloadId, long status) {
+            // if out change download will call back at here
         }
     }
 ```

@@ -33,8 +33,8 @@ import java.util.ArrayList;
     private SQLiteHelper dbHelper;
     private SQLiteDatabase db;
 
-    public DataKeeper(Context context) {
-        this.dbHelper = new SQLiteHelper(context);
+    public DataKeeper(Context context, int dataVersion) {
+        this.dbHelper = new SQLiteHelper(context, dataVersion);
     }
 
     /**

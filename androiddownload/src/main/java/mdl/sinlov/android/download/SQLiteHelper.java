@@ -26,11 +26,10 @@ import android.database.sqlite.SQLiteOpenHelper;
 
     private static final String databaseName = "mdl_file_download";
     private static CursorFactory factory = null;
-    private static final int version = 1;
     public static final String TABLE_NAME = "download_info";
 
-    public SQLiteHelper(Context context) {
-        super(context, databaseName, factory, version);
+    public SQLiteHelper(Context context, int dataVersion) {
+        super(context, databaseName, factory, dataVersion);
     }
 
     public SQLiteHelper(Context context, String name, CursorFactory factory,
@@ -55,6 +54,20 @@ import android.database.sqlite.SQLiteOpenHelper;
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        if (newVersion > oldVersion) {
+            db.execSQL("drop table if exists " + TABLE_NAME);
+            String downloadSQL = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " ("
+                    + "id INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL , "
+                    + "downloadID VARCHAR, "
+                    + "downloadStatus INTEGER, "
+                    + "taskID VARCHAR, "
+                    + "url VARCHAR, "
+                    + "filePath VARCHAR, "
+                    + "fileSize VARCHAR, "
+                    + "downLoadSize VARCHAR "
+                    + ")";
+            db.execSQL(downloadSQL);
+        }
     }
 
     @Override

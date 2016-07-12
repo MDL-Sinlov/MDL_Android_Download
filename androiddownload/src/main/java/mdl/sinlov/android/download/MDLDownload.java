@@ -27,13 +27,13 @@ import java.util.ArrayList;
  */
 public class MDLDownload {
 
+    private static final int DEFAULT_VERSION = 1;
     private final MDLDownloadCallBack mdlDownloadCallBack;
     private Context context;
     private DownloadManager downloadManager;
     private MDLDownloadManager mdlDownloadManager;
     private String downloadFolder;
     private boolean isVisibleInDownloadUI = true;
-
 
     /**
      * get Download setting absolute path, if this device has not sdcard, it will return null
@@ -164,8 +164,24 @@ public class MDLDownload {
     /**
      * when use download, you must give {@link Context} and {@link String} downloadFolder
      * <br> Download folder can use {@link #getDownloadFolder()}
-     *
-     * @param context            {@link Context}
+     *  @param context            {@link Context}
+     * @param downloadFolder     {@link String}
+     * @param onDownloadListener {@link OnDownloadListener}
+     * @param dataVersion dataVersion
+     */
+    public MDLDownload(Context context, String downloadFolder, OnDownloadListener onDownloadListener, int dataVersion) {
+        this.context = context.getApplicationContext();
+        downloadManager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
+        mdlDownloadManager = new MDLDownloadManager(context);
+        this.downloadFolder = downloadFolder;
+        new SQLiteHelper(context, dataVersion);
+        mdlDownloadCallBack = new MDLDownloadCallBack(context, mdlDownloadManager, onDownloadListener, dataVersion);
+    }
+
+    /**
+     * when use download, you must give {@link Context} and {@link String} downloadFolder
+     * <br> Download folder can use {@link #getDownloadFolder()}
+     *  @param context            {@link Context}
      * @param downloadFolder     {@link String}
      * @param onDownloadListener {@link OnDownloadListener}
      */
@@ -174,7 +190,7 @@ public class MDLDownload {
         downloadManager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
         mdlDownloadManager = new MDLDownloadManager(context);
         this.downloadFolder = downloadFolder;
-        new SQLiteHelper(context);
-        mdlDownloadCallBack = new MDLDownloadCallBack(context, mdlDownloadManager, onDownloadListener);
+        new SQLiteHelper(context, DEFAULT_VERSION);
+        mdlDownloadCallBack = new MDLDownloadCallBack(context, mdlDownloadManager, onDownloadListener, DEFAULT_VERSION);
     }
 }

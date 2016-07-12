@@ -45,7 +45,6 @@ import java.util.ArrayList;
     private final IntentFilter downloadIntentFilter;
     private final DownloadChangeObserver downloadChangeObserver;
     private final DataKeeper dataKeeper;
-
     private MyHandler handler = new MyHandler(this);
 
 
@@ -70,7 +69,7 @@ import java.util.ArrayList;
         }
     }
 
-    public MDLDownloadCallBack(Context context, MDLDownloadManager mdlDownloadManager, OnDownloadListener onDownloadListener) {
+    public MDLDownloadCallBack(Context context, MDLDownloadManager mdlDownloadManager, OnDownloadListener onDownloadListener, int dataVersion) {
         this.context = context.getApplicationContext();
         this.mdlDownloadManager = mdlDownloadManager;
         this.onDownloadListener = onDownloadListener;
@@ -81,7 +80,7 @@ import java.util.ArrayList;
         downloadIntentFilter.setPriority(DEFAULT_PRIORITY);
         this.mdlCompleteDownloadReceiver = new MDLCompleteDownloadReceiver();
         this.downloadChangeObserver = new DownloadChangeObserver();
-        this.dataKeeper = new DataKeeper(context);
+        this.dataKeeper = new DataKeeper(context, dataVersion);
     }
 
     public void start() {
@@ -190,6 +189,8 @@ import java.util.ArrayList;
                                 callback.onDownloadListener.downloadHistory(bytesAndStatus[0], downloadUri);
                             } else {
                                 callback.dataKeeper.deleteDownLoadInfo(String.valueOf(bytesAndStatus[0]));
+                                callback.onDownloadListener.downloadOutChange(bytesAndStatus[0], bytesAndStatus[3]);
+                                callback.downloadIds.remove(bytesAndStatus[0]);
                             }
                         }
                         break;

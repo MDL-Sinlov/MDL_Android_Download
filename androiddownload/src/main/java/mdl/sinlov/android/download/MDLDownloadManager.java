@@ -119,10 +119,10 @@ public class MDLDownloadManager {
         long[] bytesAndStatus = new long[]{-1, -1, 0, 0};
         DownloadManager.Query query = new DownloadManager.Query().setFilterById(downloadId);
         Cursor c = null;
+        bytesAndStatus[0] = downloadId;
         try {
             c = downloadManager.query(query);
             if (c != null && c.moveToFirst()) {
-                bytesAndStatus[0] = downloadId;
                 bytesAndStatus[1] = c.getLong(c.getColumnIndexOrThrow(DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR));
                 bytesAndStatus[2] = c.getLong(c.getColumnIndexOrThrow(DownloadManager.COLUMN_TOTAL_SIZE_BYTES));
                 bytesAndStatus[3] = c.getLong(c.getColumnIndex(DownloadManager.COLUMN_STATUS));
