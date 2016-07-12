@@ -122,10 +122,15 @@ private class TestDownloadCallback implements OnDownloadListener {
     }
 ```
 
-### submit download
+### Config download
 
 ```java
 mdlDownload.submitDownload(APK_URL, DOWNLOAD_FILE_NAME, true);
+mdlDownload.pauseDownload();
+mdlDownload.resumeDownload();
+mdlDownload.removeDownload();
+mdlDownload.cleanAllDownload();
+// and so on
 ```
 
 #License
