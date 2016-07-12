@@ -7,7 +7,7 @@
 - download info recording at SQLiteDB
 - Use WeakReference for less MEM use
 
-> Version 0.0.1 method count 112
+> Version 0.0.2 method count 112
 
 Less Runtime :
 - minSdkVersion 14
@@ -40,7 +40,7 @@ in module `build.gradle`
 
 ```gradle
 dependencies {
-    compile 'mdl.sinlov.android:download:0.0.1'
+    compile 'mdl.sinlov.android:download:0.0.2'
 }
 ```
 
@@ -94,14 +94,14 @@ private class TestDownloadCallback implements OnDownloadListener {
             // errorCode in {@link DownloadManager#ERROR_UNKNOWN} and so no.
         }
 
-
-        @Override
-        public void downloadHistory(long downloadId, String downloadUri) {
-            // history info
-        }
         @Override
         public void downloadOutChange(long downloadId, long status) {
             // if out change download will call back at here
+        }
+        
+        @Override
+        public void downloadHistory(long downloadId, String downloadUri) {
+            // history info
         }
     }
 ```
