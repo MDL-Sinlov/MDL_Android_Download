@@ -22,7 +22,7 @@ public class BaseDownloadActivity extends MDLTestActivity {
     public static final String DOWNLOAD_FOLDER_NAME = "1_Test_Download";
     public static final String DOWNLOAD_FILE_NAME = "TestOneDownload.apk";
 
-    public static final String APK_URL = "http://10.8.230.124:8082/app-debug.apk";
+    public static final String APK_URL = "http://down.mumayi.com/41052/mbaidu";
 
     private FloatingActionButton fab;
     private Button btnDownloadButton;
@@ -32,6 +32,7 @@ public class BaseDownloadActivity extends MDLTestActivity {
     private TextView tvDownloadSize;
     private TextView tvDownloadPercentage;
     private MDLDownload mdlDownload;
+    private long downloadId;
 
     @Override
     protected void initView(Bundle savedInstanceState) {
@@ -54,6 +55,7 @@ public class BaseDownloadActivity extends MDLTestActivity {
 
     private void initData() {
         mdlDownload = new MDLDownload(this, DOWNLOAD_FOLDER_NAME, new TestDownloadCallback(), 2);
+        mdlDownload.setRefreshPeriodSeconds(1);
         ArrayList<MDLDownLoadInfo> downloadInfo = mdlDownload.getDownloadInfoByDB();
         testTimeUseStart();
         for (MDLDownLoadInfo info :
@@ -87,7 +89,15 @@ public class BaseDownloadActivity extends MDLTestActivity {
         btnDownloadButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mdlDownload.submitDownload(APK_URL, DOWNLOAD_FILE_NAME, true);
+                downloadId = mdlDownload.submitDownload(APK_URL, DOWNLOAD_FILE_NAME, true);
+            }
+        });
+        btnDownloadCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (downloadId > 0) {
+                    mdlDownload.removeDownload(downloadId);
+                }
             }
         });
     }
@@ -99,7 +109,7 @@ public class BaseDownloadActivity extends MDLTestActivity {
         public void downloading(long downloadId, long status, MDLDownLoadInfo mdlDownLoadInfo) {
             long downloadSize = mdlDownLoadInfo.getDownloadSize();
             long totalFileSize = mdlDownLoadInfo.getFileSize();
-            ALog.d("downloading id: " + downloadId +
+            ALog.d("downloading downloadId: " + downloadId +
                     " status: " + status +
                     " download: " + downloadSize +
                     " total: " + totalFileSize);
@@ -118,7 +128,7 @@ public class BaseDownloadActivity extends MDLTestActivity {
 
         @Override
         public void downloadComplete(long downloadId, MDLDownLoadInfo mdlDownLoadInfo) {
-            ALog.v("downloadComplete id: " + downloadId + " downloadUri: " + mdlDownLoadInfo.getFilePath());
+            ALog.v("downloadComplete downloadId: " + downloadId + " downloadUri: " + mdlDownLoadInfo.getFilePath());
             String showInfo = "Download Success! Size: " + mdlDownLoadInfo.getFileSize();
             tvDownloadSize.setText(showInfo);
             tvDownloadSize.setVisibility(View.VISIBLE);
@@ -131,17 +141,25 @@ public class BaseDownloadActivity extends MDLTestActivity {
 
         @Override
         public void downloadError(long downloadId, int errorCode) {
-            ALog.e("downloadError id: " + downloadId + " errorCode: " + errorCode);
+            ALog.e("downloadError downloadId: " + downloadId + " errorCode: " + errorCode);
         }
 
         @Override
         public void downloadHistory(long downloadId, String downloadUri) {
-            ALog.i("downloadHistory id: " + downloadId + " downloadUri: " + downloadUri);
+            ALog.i("downloadHistory downloadId: " + downloadId + " downloadUri: " + downloadUri);
         }
 
         @Override
         public void downloadOutChange(long downloadId, long status) {
-            ALog.w("downloadHistory id: " + downloadId + " status: " + status);
+            ALog.w("downloadOutChange downloadId: " + downloadId + " status: " + status);
+            String text = "remove downloadId: " + downloadId + " success!";
+            tvDownloadSize.setText(text);
+            tvDownloadSize.setVisibility(View.VISIBLE);
+            tvDownloadPercentage.setVisibility(View.GONE);
+            pbDownloadProgress.setProgress(100);
+            pbDownloadProgress.setVisibility(View.VISIBLE);
+            btnDownloadCancel.setVisibility(View.GONE);
+            btnDownloadButton.setVisibility(View.GONE);
         }
     }
 }

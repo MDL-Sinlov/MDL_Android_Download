@@ -99,26 +99,32 @@ public class MDLDownload {
     /**
      * pause download by id, if ROM can't support, will print {@link NoSuchMethodError}
      *
-     * @param downloadID long...
+     * @param downloadID downloadID...
+     * @return can pause or not
      */
-    public void pauseDownload(long... downloadID) {
+    public boolean pauseDownload(long... downloadID) {
         if (MDLDownloadManager.isExistPauseAndResumeMethod()) {
             mdlDownloadManager.pauseDownload(downloadID);
+            return true;
         } else {
             new NoSuchMethodError("can not pause download at this rom").printStackTrace();
+            return false;
         }
     }
 
     /**
      * resume download by id, if ROM can't support, will print {@link NoSuchMethodError}
      *
-     * @param downloadID long...
+     * @param downloadID downloadID...
+     * @return can resume or not
      */
-    public void resumeDownload(long... downloadID) {
+    public boolean resumeDownload(long... downloadID) {
         if (MDLDownloadManager.isExistPauseAndResumeMethod()) {
             mdlDownloadManager.resumeDownload(downloadID);
+            return true;
         } else {
             new NoSuchMethodError("can not resume download at this rom").printStackTrace();
+            return false;
         }
     }
 
@@ -137,6 +143,22 @@ public class MDLDownload {
      */
     public void cleanAllDownload() {
         mdlDownloadCallBack.clearAllDownload(getDownloadFolder());
+    }
+
+    /**
+     * set refresh period seconds
+     * @param seconds int
+     */
+    public void setRefreshPeriodSeconds(int seconds) {
+        mdlDownloadCallBack.refreshPeriodSeconds = seconds;
+    }
+
+    /**
+     * is refresh real time, it may make GC work to much
+     * @param isRealTime boolean
+     */
+    public void isRefreshRealTime(boolean isRealTime) {
+        mdlDownloadCallBack.isRefreshRealTime = isRealTime;
     }
 
     /**
@@ -164,10 +186,11 @@ public class MDLDownload {
     /**
      * when use download, you must give {@link Context} and {@link String} downloadFolder
      * <br> Download folder can use {@link #getDownloadFolder()}
-     *  @param context            {@link Context}
+     *
+     * @param context            {@link Context}
      * @param downloadFolder     {@link String}
      * @param onDownloadListener {@link OnDownloadListener}
-     * @param dataVersion dataVersion
+     * @param dataVersion        dataVersion
      */
     public MDLDownload(Context context, String downloadFolder, OnDownloadListener onDownloadListener, int dataVersion) {
         this.context = context.getApplicationContext();
@@ -181,7 +204,8 @@ public class MDLDownload {
     /**
      * when use download, you must give {@link Context} and {@link String} downloadFolder
      * <br> Download folder can use {@link #getDownloadFolder()}
-     *  @param context            {@link Context}
+     *
+     * @param context            {@link Context}
      * @param downloadFolder     {@link String}
      * @param onDownloadListener {@link OnDownloadListener}
      */

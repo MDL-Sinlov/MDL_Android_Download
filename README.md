@@ -7,12 +7,12 @@
 - download info recording at SQLiteDB
 - Use WeakReference for less MEM use
 
-> Version 0.0.2 method count 114
+> Version 0.0.3 method count 114
 
 Less Runtime :
 - minSdkVersion 14
 - gradle or maven
-- jar [Download just like this Path](https://github.com/MDL-Sinlov/MDL_Android_Download/raw/master/mvn-repo/mdl/sinlov/android/download/0.0.2/download-0.0.2-jarLib.jar)
+- jar [Download just like this Path](https://github.com/MDL-Sinlov/MDL_Android_Download/raw/master/mvn-repo/mdl/sinlov/android/download/0.0.2/download-0.0.3-jarLib.jar)
 
 > eclipse just use every repo at version `download-x.x.x-jarLib.jar`
 
@@ -40,7 +40,7 @@ in module `build.gradle`
 
 ```gradle
 dependencies {
-    compile 'mdl.sinlov.android:download:0.0.2'
+    compile 'mdl.sinlov.android:download:0.0.3'
 }
 ```
 
@@ -48,29 +48,7 @@ dependencies {
 
 ## Fast use
 
-
-
-### init `MDLDownload`
-
-```java
-// nomal way static use
-MDLDownload mdlDownload = new MDLDownload(this, DOWNLOAD_FOLDER_NAME, new TestDownloadCallback());
-
-// last params version can use like app version for clear old download for remove DB data
-// download file will not delete because it was cast to much resource
-MDLDownload mdlDownload = new MDLDownload(this, DOWNLOAD_FOLDER_NAME, new TestDownloadCallback(), 2);
-
-// get download folder
-mdlDownload.getDownloadFolder();
-
-//for get download info
-ArrayList<MDLDownLoadInfo> downloadInfo = mdlDownload.getDownloadInfoByDB();
-
-//if you are update version please clear all data
-
-```
-
-### new Callback
+### new OnDownloadListener
 
 - new class `TestDownloadCallback implements OnDownloadListener` for get info
 
@@ -105,6 +83,31 @@ private class TestDownloadCallback implements OnDownloadListener {
         }
     }
 ```
+
+
+### init `MDLDownload`
+
+```java
+// nomal way static use
+MDLDownload mdlDownload = new MDLDownload(this, DOWNLOAD_FOLDER_NAME, new TestDownloadCallback());
+
+// last params version can use like app version for clear old download for remove DB data
+// download file will not delete because it was cast to much resource
+MDLDownload mdlDownload = new MDLDownload(this, DOWNLOAD_FOLDER_NAME, new TestDownloadCallback(), 2);
+
+mdlDownload.setRefreshPeriodSeconds(5); //if not set default is 3
+// mdlDownload.isRefreshRealTime(true); mostly if use list to show, you must not open refresh real time
+
+// get download folder
+mdlDownload.getDownloadFolder();
+
+//for get download info
+ArrayList<MDLDownLoadInfo> downloadInfo = mdlDownload.getDownloadInfoByDB();
+
+//if you are update version please clear all data
+
+```
+
 
 - must `Observer data change at lifecycle`
 

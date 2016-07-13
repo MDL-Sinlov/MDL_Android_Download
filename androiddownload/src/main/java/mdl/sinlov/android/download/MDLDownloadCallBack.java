@@ -13,6 +13,9 @@ import android.os.Message;
 import java.io.File;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 /**
  * callback of download
@@ -46,25 +49,45 @@ import java.util.ArrayList;
     private final DownloadChangeObserver downloadChangeObserver;
     private final DataKeeper dataKeeper;
     private MyHandler handler = new MyHandler(this);
+    public ScheduledExecutorService scheduledExecutorService;
+    private boolean isStartNotification = false;
+    public int refreshPeriodSeconds = 3;
+    public boolean isRefreshRealTime = false;
+    Runnable command = new Runnable() {
 
+        @Override
+        public void run() {
+            notificationDataChange();
+        }
+    };
 
     class DownloadChangeObserver extends ContentObserver {
-
         public DownloadChangeObserver() {
             super(handler);
         }
 
         @Override
         public void onChange(boolean selfChange) {
-            for (int i = 0; i < downloadIds.size(); i++) {
-                Long downloadId = downloadIds.get(i);
-                int errorCode = mdlDownloadManager.getErrorCode(downloadId);
-                long[] bytesAndStatus = mdlDownloadManager.getBytesAndStatus(downloadId);
-                if (errorCode > 0) {
-                    handler.sendMessage(handler.obtainMessage(2, errorCode, 0, downloadId));
-                } else {
-                    handler.sendMessage(handler.obtainMessage(1, bytesAndStatus));
+            if (isRefreshRealTime) {
+                notificationDataChange();
+            } else {
+                if (!isStartNotification) {
+                    scheduledExecutorService.scheduleAtFixedRate(command, 0, refreshPeriodSeconds, TimeUnit.SECONDS);
+                    isStartNotification = true;
                 }
+            }
+        }
+    }
+
+    private void notificationDataChange() {
+        for (int i = 0; i < downloadIds.size(); i++) {
+            Long downloadId = downloadIds.get(i);
+            int errorCode = mdlDownloadManager.getErrorCode(downloadId);
+            long[] bytesAndStatus = mdlDownloadManager.getBytesAndStatus(downloadId);
+            if (errorCode > 0) {
+                handler.sendMessage(handler.obtainMessage(2, errorCode, 0, downloadId));
+            } else {
+                handler.sendMessage(handler.obtainMessage(1, bytesAndStatus));
             }
         }
     }
@@ -84,12 +107,14 @@ import java.util.ArrayList;
     }
 
     public void start() {
+        scheduledExecutorService = Executors.newScheduledThreadPool(3);
         context.registerReceiver(mdlCompleteDownloadReceiver, downloadIntentFilter);
         context.getContentResolver().registerContentObserver(MDLDownloadManager.CONTENT_URI, true, downloadChangeObserver);
         observedDownloadIdsFromDB();
     }
 
     public void stop() {
+        scheduledExecutorService.shutdown();
         context.unregisterReceiver(mdlCompleteDownloadReceiver);
         context.getContentResolver().unregisterContentObserver(downloadChangeObserver);
     }
