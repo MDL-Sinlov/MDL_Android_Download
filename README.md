@@ -64,7 +64,7 @@ MDLDownload mdlDownload = new MDLDownload(this, DOWNLOAD_FOLDER_NAME, new TestDo
 mdlDownload.getDownloadFolder();
 
 //for get download info
-ArrayList<SQLDownLoadInfo> downloadInfo = mdlDownload.getDownloadInfoByDB();
+ArrayList<MDLDownLoadInfo> downloadInfo = mdlDownload.getDownloadInfoByDB();
 
 //if you are update version please clear all data
 
