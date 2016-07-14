@@ -139,7 +139,7 @@ public class MDLDownloadManager {
      * pause download
      *
      * @param ids the IDs of the downloads to be paused
-     * @return the number of downloads actually paused, -1 if exception or method not exist
+     * @return the number of downloads actually paused, -1 if exception -2 method not exist
      */
     public int pauseDownload(long... ids) {
         initPauseMethod();
@@ -154,16 +154,20 @@ public class MDLDownloadManager {
              * accept all exception, include ClassNotFoundException, NoSuchMethodException, InvocationTargetException,
              * NullPointException
              */
-            e.printStackTrace();
+            if (e instanceof NullPointerException) {
+                return -2;
+            } else {
+                e.printStackTrace();
+                return -1;
+            }
         }
-        return -1;
     }
 
     /**
      * resume download
      *
      * @param ids the IDs of the downloads to be resumed
-     * @return the number of downloads actually resumed, -1 if exception or method not exist
+     * @return the number of downloads actually resumed, -1 if exception -2 method not exist
      */
     public int resumeDownload(long... ids) {
         initResumeMethod();
@@ -178,9 +182,13 @@ public class MDLDownloadManager {
              * accept all exception, include ClassNotFoundException, NoSuchMethodException, InvocationTargetException,
              * NullPointException
              */
-            e.printStackTrace();
+            if (e instanceof NullPointerException) {
+                return -2;
+            } else {
+                e.printStackTrace();
+                return -1;
+            }
         }
-        return -1;
     }
 
     /**
@@ -203,7 +211,9 @@ public class MDLDownloadManager {
             pauseDownload = DownloadManager.class.getMethod(METHOD_NAME_PAUSE_DOWNLOAD, long[].class);
         } catch (Exception e) {
             // accept all exception
-            e.printStackTrace();
+            if (MDLDownload.DEBUG) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -216,7 +226,9 @@ public class MDLDownloadManager {
             resumeDownload = DownloadManager.class.getMethod(METHOD_NAME_RESUME_DOWNLOAD, long[].class);
         } catch (Exception e) {
             // accept all exception
-            e.printStackTrace();
+            if (MDLDownload.DEBUG) {
+                e.printStackTrace();
+            }
         }
     }
 

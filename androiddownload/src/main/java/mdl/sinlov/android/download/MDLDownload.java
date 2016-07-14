@@ -26,7 +26,7 @@ import java.util.ArrayList;
  * Created by "sinlov" on 16/6/30.
  */
 public class MDLDownload {
-
+    public static boolean DEBUG = false;
     private static final int DEFAULT_VERSION = 1;
     private final MDLDownloadCallBack mdlDownloadCallBack;
     private Context context;
