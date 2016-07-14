@@ -104,8 +104,7 @@ public class MDLDownload {
      */
     public boolean pauseDownload(long... downloadID) {
         if (MDLDownloadManager.isExistPauseAndResumeMethod()) {
-            mdlDownloadManager.pauseDownload(downloadID);
-            return true;
+            return mdlDownloadManager.pauseDownload(downloadID) != -1;
         } else {
             new NoSuchMethodError("can not pause download at this rom").printStackTrace();
             return false;
@@ -120,8 +119,7 @@ public class MDLDownload {
      */
     public boolean resumeDownload(long... downloadID) {
         if (MDLDownloadManager.isExistPauseAndResumeMethod()) {
-            mdlDownloadManager.resumeDownload(downloadID);
-            return true;
+            return mdlDownloadManager.resumeDownload(downloadID) != -1;
         } else {
             new NoSuchMethodError("can not resume download at this rom").printStackTrace();
             return false;

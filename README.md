@@ -7,12 +7,12 @@
 - download info recording at SQLiteDB
 - Use WeakReference for less MEM use
 
-> Version 0.0.3 method count 122
+> Version 0.0.4 method count 122
 
 Less Runtime :
 - minSdkVersion 14
 - gradle or maven
-- jar [Download just like this Path](https://github.com/MDL-Sinlov/MDL_Android_Download/raw/master/mvn-repo/mdl/sinlov/android/download/0.0.3/download-0.0.3-jarLib.jar)
+- jar [Download just like this Path](https://github.com/MDL-Sinlov/MDL_Android_Download/raw/master/mvn-repo/mdl/sinlov/android/download/0.0.4/download-0.0.4-jarLib.jar)
 
 > eclipse just use every repo at version `download-x.x.x-jarLib.jar`
 
@@ -40,7 +40,7 @@ in module `build.gradle`
 
 ```gradle
 dependencies {
-    compile 'mdl.sinlov.android:download:0.0.3'
+    compile 'mdl.sinlov.android:download:0.0.4'
 }
 ```
 
