@@ -33,7 +33,24 @@
     <application
         android:allowBackup="true"
         android:supportsRtl="true">
+        <activity
+            android:name="mdl.android.os.download.ui.DownloadList"
+            android:launchMode="singleTask" />
 
+        <provider
+            android:name="mdl.android.os.download.DownloadProvider"
+            android:authorities="com.mozillaonline.downloads" />
+
+        <service android:name="mdl.android.os.download.DownloadService" />
+
+        <receiver
+            android:name="mdl.android.os.download.DownloadReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>
